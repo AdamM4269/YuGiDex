@@ -1,0 +1,41 @@
+{
+  "name": "projet_yugidex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamM4269/YuGiDex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdamM4269/YuGiDex/issues"
+  },
+  "homepage": "https://github.com/AdamM4269/YuGiDex#readme",
+  "keywords": [],
+  "devDependencies": {
+    "@types/body-parser": "^1.19.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/mongodb": "^4.0.6",
+    "@types/node": "^24.2.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "undici-types": "^7.13.0"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongodb": "^6.18.0",
+    "mysql2": "^3.14.3"
+  }
+}

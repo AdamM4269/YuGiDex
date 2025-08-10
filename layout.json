@@ -1,0 +1,31 @@
+[
+  {
+    "type": "text",
+    "label": "Nom",
+    "placeholder": "Entrez votre nom",
+    "id": "nom"
+  },
+  {
+    "type": "text",
+    "label": "Prenom",
+    "placeholder": "Entrez votre prenom",
+    "id": "prenom"
+  },
+  {
+    "type": "text",
+    "label": "Age",
+    "placeholder": "Entrez votre age",
+    "id": "age"
+  },
+  {
+    "type": "email",
+    "label": "Email",
+    "placeholder": "Entrez votre email",
+    "id": "email"
+  },
+  {
+    "type": "button",
+    "text": "Envoyer",
+    "id": "submitBtn"
+  }
+]

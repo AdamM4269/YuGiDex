@@ -1,0 +1,13 @@
+#logo {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 200px;
+  height: auto;
+  z-index: 1000;
+}
+
+/* Exemple style basique */
+#app {
+  margin: 80px 20px 20px 20px; /* pour que le form soit visible sans être caché par le logo */
+}

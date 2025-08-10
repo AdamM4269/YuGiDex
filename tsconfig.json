@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",              // ⬅️ plus stable
+    "module": "esnext",                    // ⬅️ compatible avec Node.js + Express
+    "target": "ES2020",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
