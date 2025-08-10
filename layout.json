@@ -6,18 +6,6 @@
     "id": "nom"
   },
   {
-    "type": "text",
-    "label": "Prenom",
-    "placeholder": "Entrez votre prenom",
-    "id": "prenom"
-  },
-  {
-    "type": "text",
-    "label": "Age",
-    "placeholder": "Entrez votre age",
-    "id": "age"
-  },
-  {
     "type": "email",
     "label": "Email",
     "placeholder": "Entrez votre email",
@@ -25,7 +13,7 @@
   },
   {
     "type": "button",
-    "text": "Envoyer",
-    "id": "submitBtn"
+    "text": "Soumettre",
+    "id": "submit"
   }
 ]

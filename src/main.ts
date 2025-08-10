@@ -7,8 +7,8 @@ type UIElement = {
 };
 
 type Result = {
-  name:string;
-  email:string,
+  pseudo:string;
+  mail:string,
 }
 
 async function loadUI() {
@@ -39,8 +39,8 @@ async function loadUI() {
 
       button.addEventListener("click", () => {
         const result:Result = {
-          name:(document.getElementById("nom") as HTMLInputElement)?.value,
-          email:(document.getElementById("email") as HTMLInputElement)?.value
+          pseudo:(document.getElementById("nom") as HTMLInputElement)?.value,
+          mail:(document.getElementById("email") as HTMLInputElement)?.value
         };
         CatchResult(result);
       });
@@ -52,21 +52,13 @@ async function loadUI() {
 
 async function CatchResult(result:Result):Promise<void>
 {
-  try {
-    const response = await fetch('/api/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(result)
-    });
-
-    if (response.ok) {
-      alert('Données enregistrées avec succès !');
-    } else {
-      alert('Erreur lors de l’enregistrement');
-    }
-  } catch (error) {
-    alert('Erreur réseau');
-  }
+  fetch('http://localhost:5000/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(result)
+  })
+  .then(res => res.json())
+  .then(data => console.log(data));
 }
 
 loadUI();

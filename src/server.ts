@@ -17,6 +17,8 @@ async function main() {
 
 
   const app = express();
+  app.use(cors());
+  app.use(bodyParser.json());
   const port = process.env.PORT || 5000;
   await app.get("/", async (req, res) =>{
     // Crée la connexion (ici, avec mysql2/promise)
@@ -27,35 +29,35 @@ async function main() {
       const [rows, fields] = await connection.query<any[]>('SELECT * FROM users');;
       console.log("Les données sont : ", rows);
       console.log(rows);
-      res.json(rows)
 
     } catch (err) {
       console.error("Erreur de connexion ou de requête :", err);
     } finally {
-      await connection.end();  // ferme la connexion proprement
     }
   });
 
 // ✅ POST - Ajouter un nouvel utilisateur
   app.post("/users", async (req: Request, res: Response) => {
-    const { name, age } = req.body;
+    const { pseudo, mail} = req.body;
 
-    if (!name || typeof age !== 'number') {
-      return res.status(400).json({ error: "Nom et âge requis." });
+    if (!pseudo || !mail) {
+      return res.status(400).json({ message: "Champs manquants" });
     }
 
     try {
       const [result] = await connection.execute(
-        'INSERT INTO users (name, age) VALUES (?, ?)',
-        [name, age]
+        'INSERT INTO users (pseudo, mail) VALUES (?, ?)',
+        [pseudo, mail]
       );
 
-      res.status(201).json({ message: "Utilisateur ajouté", id: (result as any).insertId });
-    } catch (err) {
-      console.error("❌ Erreur INSERT :", err);
-      res.status(500).json({ error: "Erreur lors de l'ajout de l'utilisateur." });
+      res.status(201).json({ message: "Utilisateur ajouté avec succès" });
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'utilisateur :", error);
+      res.status(500).json({ message: "Erreur serveur" });
+    } finally {
     }
   });
+
 
 
 

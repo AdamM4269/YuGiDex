@@ -22,8 +22,8 @@ async function loadUI() {
             button.id = element.id;
             button.addEventListener("click", () => {
                 const result = {
-                    name: document.getElementById("nom")?.value,
-                    email: document.getElementById("email")?.value
+                    pseudo: document.getElementById("nom")?.value,
+                    mail: document.getElementById("email")?.value
                 };
                 CatchResult(result);
             });
@@ -32,21 +32,12 @@ async function loadUI() {
     });
 }
 async function CatchResult(result) {
-    try {
-        const response = await fetch('/api/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(result)
-        });
-        if (response.ok) {
-            alert('Données enregistrées avec succès !');
-        }
-        else {
-            alert('Erreur lors de l’enregistrement');
-        }
-    }
-    catch (error) {
-        alert('Erreur réseau');
-    }
+    fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(result)
+    })
+        .then(res => res.json())
+        .then(data => console.log(data));
 }
 loadUI();
