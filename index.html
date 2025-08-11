@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
-  <title>Formulaire dynamique en TS</title>
+  <title>YugiDex</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    label { display: block; margin-top: 10px; }
-    input, button { margin-top: 5px; padding: 8px; width: 300px; }
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input,
+    button {
+      margin-top: 5px;
+      padding: 8px;
+      width: 300px;
+    }
   </style>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-   <!-- Logo en haut à gauche -->
+  <nav class="tabs">
+    <a href="index.html" class="tab-button">Client 1</a>
+    <a href="my_data_base.html" class="tab-button">Client 2</a>
+  </nav>
+  <!-- Logo en haut à gauche -->
   <img src="logo.png" alt="Logo" id="logo" />
   <div id="app">
     <h1>Formulaire généré depuis un JSON</h1>
@@ -20,4 +39,5 @@
   <!-- Script compilé depuis TypeScript -->
   <script src="dist/main.js" defer></script>
 </body>
+
 </html>

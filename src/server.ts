@@ -3,42 +3,41 @@ import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { MongoClient, Db, Collection, InsertOneResult } from 'mongodb';
+import { log } from 'console';
 
 
 
 async function main() {
 
   const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'node',
-    });
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'node',
+  });
 
 
   const app = express();
   app.use(cors());
   app.use(bodyParser.json());
   const port = process.env.PORT || 5000;
-  await app.get("/", async (req, res) =>{
+  await app.get("/", async (req, res) => {
     // Crée la connexion (ici, avec mysql2/promise)
     try {
-      console.log("Connecté avec succès");
-
-      // Exemple de requête
-      const [rows, fields] = await connection.query<any[]>('SELECT * FROM users');;
-      console.log("Les données sont : ", rows);
-      console.log(rows);
-
+      console.log(req.query.message);
+      const [rows] = await connection.query("SELECT * FROM users WHERE mail LIKE ?",
+        [`%${req.query.message}`]
+      );
+      res.json(rows);
     } catch (err) {
-      console.error("Erreur de connexion ou de requête :", err);
-    } finally {
+      console.error(err);
+      res.status(500).json({ error: 'Erreur serveur' });
     }
   });
 
-// ✅ POST - Ajouter un nouvel utilisateur
+  // ✅ POST - Ajouter un nouvel utilisateur
   app.post("/users", async (req: Request, res: Response) => {
-    const { pseudo, mail} = req.body;
+    const { pseudo, mail } = req.body;
 
     if (!pseudo || !mail) {
       return res.status(400).json({ message: "Champs manquants" });

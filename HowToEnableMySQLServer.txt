@@ -1,0 +1,1 @@
+Start-Process "C:\MAMP\bin\mysql\bin\mysqld.exe" -ArgumentList '--defaults-file="C:\MAMP\conf\mysql\my.ini"' -NoNewWindow
