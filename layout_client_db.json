@@ -1,0 +1,13 @@
+[
+  {
+    "type": "cardname",
+    "label": "Card name",
+    "placeholder": "Enter card name",
+    "id": "cardname"
+  },
+  {
+    "type": "button",
+    "text": "Submit",
+    "id": "submit"
+  }
+]

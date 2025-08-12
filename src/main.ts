@@ -7,8 +7,9 @@ type UIElement = {
 };
 
 type Result = {
-  pseudo:string;
-  mail:string,
+  name_fr:string;
+  name_en:string;
+  reference:string,
 }
 
 async function loadUI() {
@@ -19,7 +20,7 @@ async function loadUI() {
   if (!app) return;
 
   elements.forEach((element) => {
-    if (element.type === "text" || element.type === "email") {
+    if (element.type === "name" || element.type === "reference") {
       const label = document.createElement("label");
       label.textContent = element.label || "";
 
@@ -39,8 +40,9 @@ async function loadUI() {
 
       button.addEventListener("click", () => {
         const result:Result = {
-          pseudo:(document.getElementById("nom") as HTMLInputElement)?.value,
-          mail:(document.getElementById("email") as HTMLInputElement)?.value
+          name_fr:(document.getElementById("namefr") as HTMLInputElement)?.value,
+          name_en:(document.getElementById("nameen") as HTMLInputElement)?.value,
+          reference:(document.getElementById("reference") as HTMLInputElement)?.value
         };
         CatchResult(result);
       });
@@ -52,13 +54,14 @@ async function loadUI() {
 
 async function CatchResult(result:Result):Promise<void>
 {
-  fetch('http://localhost:5000/users', {
+  fetch('http://localhost:5000/yugidb', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(result)
   })
   .then(res => res.json())
   .then(data => console.log(data));
+  console.log("J'ai fait des trucs")
 }
 
 loadUI();

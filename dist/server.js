@@ -17,7 +17,7 @@ async function main() {
         // Crée la connexion (ici, avec mysql2/promise)
         try {
             console.log(req.query.message);
-            const [rows] = await connection.query("SELECT * FROM users WHERE mail LIKE ?", [`%${req.query.message}`]);
+            const [rows] = await connection.query("SELECT * FROM `yugidb` WHERE name_fr LIKE ?", [`${req.query.message}%`]);
             res.json(rows);
         }
         catch (err) {
@@ -26,14 +26,14 @@ async function main() {
         }
     });
     // ✅ POST - Ajouter un nouvel utilisateur
-    app.post("/users", async (req, res) => {
-        const { pseudo, mail } = req.body;
-        if (!pseudo || !mail) {
+    app.post("/yugidb", async (req, res) => {
+        const { name_fr, name_en, reference } = req.body;
+        if (!name_fr || !name_en || !reference) {
             return res.status(400).json({ message: "Champs manquants" });
         }
         try {
-            const [result] = await connection.execute('INSERT INTO users (pseudo, mail) VALUES (?, ?)', [pseudo, mail]);
-            res.status(201).json({ message: "Utilisateur ajouté avec succès" });
+            const [result] = await connection.execute('INSERT INTO yugidb (name_fr, name_en, reference) VALUES (?, ?, ?)', [name_fr, name_en, reference]);
+            res.status(201).json({ message: "Add card successfully" });
         }
         catch (error) {
             console.error("Erreur lors de l'ajout de l'utilisateur :", error);

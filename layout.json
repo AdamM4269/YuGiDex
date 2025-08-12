@@ -1,15 +1,21 @@
 [
   {
-    "type": "text",
-    "label": "Nom",
-    "placeholder": "Entrez votre nom",
-    "id": "nom"
+    "type": "name",
+    "label": "Card name in french",
+    "placeholder": "Enter the card name",
+    "id": "namefr"
   },
   {
-    "type": "email",
-    "label": "Email",
-    "placeholder": "Entrez votre email",
-    "id": "email"
+    "type": "name",
+    "label": "Card name in english",
+    "placeholder": "Enter the card name",
+    "id": "nameen"
+  },
+  {
+    "type": "reference",
+    "label": "Card reference",
+    "placeholder": "Enter the card reference",
+    "id": "reference"
   },
   {
     "type": "button",

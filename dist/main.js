@@ -6,7 +6,7 @@ async function loadUI() {
     if (!app)
         return;
     elements.forEach((element) => {
-        if (element.type === "text" || element.type === "email") {
+        if (element.type === "name" || element.type === "reference") {
             const label = document.createElement("label");
             label.textContent = element.label || "";
             const input = document.createElement("input");
@@ -22,8 +22,9 @@ async function loadUI() {
             button.id = element.id;
             button.addEventListener("click", () => {
                 const result = {
-                    pseudo: document.getElementById("nom")?.value,
-                    mail: document.getElementById("email")?.value
+                    name_fr: document.getElementById("namefr")?.value,
+                    name_en: document.getElementById("nameen")?.value,
+                    reference: document.getElementById("reference")?.value
                 };
                 CatchResult(result);
             });
@@ -32,12 +33,13 @@ async function loadUI() {
     });
 }
 async function CatchResult(result) {
-    fetch('http://localhost:5000/users', {
+    fetch('http://localhost:5000/yugidb', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(result)
     })
         .then(res => res.json())
         .then(data => console.log(data));
+    console.log("J'ai fait des trucs");
 }
 loadUI();
