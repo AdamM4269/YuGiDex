@@ -2,6 +2,21 @@ import express from 'express';
 import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+function CreateQuery(filter) {
+    const filterJson = JSON.parse(filter);
+    let fieldToQuery = filterJson.field;
+    if (filterJson.operator === "startswith") {
+        fieldToQuery = fieldToQuery + "%";
+    }
+    else if (filterJson.operator === "startswith") {
+        fieldToQuery = "%" + fieldToQuery;
+    }
+    else {
+        fieldToQuery = "%" + fieldToQuery + "%";
+    }
+    let query = "SELECT * FROM `yugidb` WHERE " + filterJson.filterbycolumn + " LIKE '" + fieldToQuery + "'";
+    return query;
+}
 async function main() {
     const connection = await mysql.createConnection({
         host: 'localhost',
@@ -17,7 +32,8 @@ async function main() {
         // Crée la connexion (ici, avec mysql2/promise)
         try {
             console.log(req.query.message);
-            const [rows] = await connection.query("SELECT * FROM `yugidb` WHERE name_fr LIKE ?", [`${req.query.message}%`]);
+            const filterToQuery = CreateQuery(req.query.message);
+            const [rows] = await connection.query(filterToQuery);
             res.json(rows);
         }
         catch (err) {

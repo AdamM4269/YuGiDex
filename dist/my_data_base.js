@@ -20,9 +20,16 @@ export default async function initClientQueryDB() {
             button.textContent = element.text || "Bouton";
             button.id = element.id;
             button.addEventListener("click", async () => {
-                const input = document.getElementById("cardname");
-                if (input) {
-                    await DisplayDatabase(input.value);
+                const field = document.getElementById("cardname");
+                const filterbycolumn = document.getElementById("filterbycolumn");
+                const operator = document.getElementById("operators");
+                const filter = {
+                    field: field.value,
+                    filterbycolumn: filterbycolumn.value,
+                    operator: operator.value
+                };
+                if (filter) {
+                    await DisplayDatabase(JSON.stringify(filter));
                 }
             });
             app.appendChild(button);

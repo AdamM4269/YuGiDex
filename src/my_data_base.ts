@@ -1,3 +1,9 @@
+type Filter = {
+  field:string;
+  filterbycolumn:string;
+  operator:string;
+}
+
 export default async function initClientQueryDB()
 {
   const response = await fetch("layout_client_db.json");
@@ -5,7 +11,7 @@ export default async function initClientQueryDB()
   const app = document.getElementById("app");
 
   if (!app) return;
-  
+
   elements.forEach((element) => {
     if (element.type === "cardname") {
       const label = document.createElement("label");
@@ -26,9 +32,16 @@ export default async function initClientQueryDB()
       button.id = element.id;
 
       button.addEventListener("click", async () => {
-        const input = document.getElementById("cardname") as HTMLInputElement;
-          if (input) {
-            await DisplayDatabase(input.value);
+        const field = document.getElementById("cardname") as HTMLInputElement;
+        const filterbycolumn = document.getElementById("filterbycolumn") as HTMLInputElement;
+        const operator = document.getElementById("operators") as HTMLInputElement;
+        const filter: Filter = {
+          field:field.value,
+          filterbycolumn:filterbycolumn.value,
+          operator:operator.value
+        }
+          if (filter) {
+            await DisplayDatabase(JSON.stringify(filter));
           }
       });
 

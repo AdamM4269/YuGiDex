@@ -34,6 +34,16 @@
     <img src="logo.png" alt="Logo" id="logo" />
     <div id="app">
         <h1>Filters</h1>
+        <select id="filterbycolumn" name="filterbycolumn">
+            <option value="name_fr">French name</option>
+            <option value="name_en">English name</option>
+            <option value="reference">Reference</option>
+        </select>
+        <select id="operators" name="operators">
+            <option value="startswith">Starts with</option>
+            <option value="endswith">Ends with</option>
+            <option value="contains">Contains</option>
+        </select>
     </div>
 
     <!-- Script compilé depuis TypeScript -->
