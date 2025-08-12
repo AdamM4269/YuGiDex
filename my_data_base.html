@@ -2,6 +2,8 @@
 <html lang="fr">
 
 <head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <title>YugiDex : DataBase</title>
     <style>
@@ -26,12 +28,19 @@
 </head>
 
 <body>
+
+  <header class="app-header">
+    <img id="logo" src="logo.png" alt="Logo">
+    <div class="brand">
+      <div class="title">YugiDex - Database</div>
+      <div class="subtitle">YugiDex • Gestion de cartes</div>
+    </div>
+
     <nav class="tabs">
-        <a href="index.html" class="tab-button">Client 1</a>
-        <a href="client2.html" class="tab-button">Client 2</a>
+      <a href="index.html" class="tab-button">Client 1</a>
+      <a href="my_data_base.html" class="tab-button">Client 2</a>
     </nav>
-    <!-- Logo en haut à gauche -->
-    <img src="logo.png" alt="Logo" id="logo" />
+  </header>
     <div id="app">
         <h1>Filters</h1>
         <select id="filterbycolumn" name="filterbycolumn">

@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
   <title>YugiDex</title>
   <style>
     body {
@@ -26,14 +28,22 @@
 </head>
 
 <body>
-  <nav class="tabs">
-    <a href="index.html" class="tab-button">Client 1</a>
-    <a href="my_data_base.html" class="tab-button">Client 2</a>
-  </nav>
-  <!-- Logo en haut à gauche -->
-  <img src="logo.png" alt="Logo" id="logo" />
+
+  <header class="app-header">
+    <img id="logo" src="logo.png" alt="Logo">
+    <div class="brand">
+      <div class="title">YugiDex</div>
+      <div class="subtitle">YugiDex • Gestion de cartes</div>
+    </div>
+
+    <nav class="tabs">
+      <a href="index.html" class="tab-button">Client 1</a>
+      <a href="my_data_base.html" class="tab-button">Client 2</a>
+    </nav>
+  </header>
+
   <div id="app">
-    <h1>Formulaire généré depuis un JSON</h1>
+    <h1>Add card in the YuGiDex</h1>
   </div>
 
   <!-- Script compilé depuis TypeScript -->
