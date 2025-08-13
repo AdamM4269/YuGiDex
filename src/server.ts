@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import Database from 'better-sqlite3';
 import { MongoClient, Db, Collection, InsertOneResult } from 'mongodb';
 import { log } from 'console';
 
@@ -84,6 +85,28 @@ async function main() {
 
   app.listen(port, () => {
     console.log(`Serveur lancé sur http://localhost:${port}`);
+  });
+
+  const db = new Database('bdd/cdb/cards.delta.cdb');
+  const app2 = express();
+  app2.use(cors());
+  app2.use(bodyParser.json());
+  const port2 = process.env.PORT || 4000;
+
+  // Endpoint pour récupérer une carte par ID
+  app2.get('/card/:id', (req, res) => {
+    const stmt = db.prepare(`
+      SELECT texts.name, texts.desc, datas.atk, datas.def
+      FROM texts
+      JOIN datas ON texts.id = datas.id
+      WHERE texts.id = ?
+    `);
+    const card = stmt.get(Number(req.params.id));
+    res.json(card || {});
+  });
+
+  app2.listen(port2, () => {
+    console.log(`Serveur lancé sur http://localhost:${port2}`);
   });
 }
 

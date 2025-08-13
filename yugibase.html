@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>YugiDex : Yugibase</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        button {
+            margin-top: 5px;
+            padding: 8px;
+            width: 300px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="app-header">
+    <img id="logo" src="logo.png" alt="Logo">
+    <div class="brand">
+      <div class="title">YugiDex - Yugibase</div>
+      <div class="subtitle">YugiDex • Recherche de cartes</div>
+    </div>
+
+    <nav class="tabs">
+      <a href="index.html" class="tab-button">Ajouter des cartes</a>
+      <a href="my_data_base.html" class="tab-button">Visionner mes cartes</a>
+      <a href="yugibase.html" class="tab-button">Rechercher</a>
+    </nav>
+  </header>
+    <div id="app">
+        <h1>Rechercher</h1>
+        <select id="filterbycolumn" name="filterbycolumn">
+            <option value="name_en">English name</option>
+            <option value="name_fr">French name</option>
+            <option value="reference">Reference</option>
+        </select>
+        <select id="operators" name="operators">
+            <option value="startswith">Starts with</option>
+            <option value="endswith">Ends with</option>
+            <option value="contains">Contains</option>
+        </select>
+    </div>
+
+    <!-- Script compilé depuis TypeScript -->
+    <script type="module" src="./dist/yugibase.js"></script>
+</body>
+
+</html>
