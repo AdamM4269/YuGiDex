@@ -1,6 +1,6 @@
-fetch('http://localhost:4000/card/102380')
+/* fetch('http://localhost:4000/card/102380')
   .then(res => res.json())
-  .then(data => console.log(data));
+  .then(data => console.log(data)); */
 
 interface Card {
   id: number;
@@ -20,7 +20,7 @@ export async function DisplayDatabase(keyword: string) {
 
   try {
     //const response = await fetch(`http://localhost:4000/card/${encodeURIComponent(keyword)}`);
-    const response = await fetch(`http://localhost:4000/card/102380`);
+    const response = await fetch(`http://localhost:4000/card/3000`);
     const data: Card[] = await response.json();
 
     const container = document.createElement('div');
@@ -36,7 +36,7 @@ export async function DisplayDatabase(keyword: string) {
 
       // Ligne d'en-tête
       const headerRow = document.createElement('tr');
-      Object.keys(data[0]).forEach(key => {
+      Object.keys(data[0]).forEach((key) => {
         const th = document.createElement('th');
         th.textContent = key.toUpperCase();
         headerRow.appendChild(th);

@@ -1,6 +1,6 @@
-fetch('http://localhost:4000/card/102380')
-    .then(res => res.json())
-    .then(data => console.log(data));
+/* fetch('http://localhost:4000/card/102380')
+  .then(res => res.json())
+  .then(data => console.log(data)); */
 export async function DisplayDatabase(keyword) {
     const app = document.getElementById('app');
     if (!app)
@@ -12,7 +12,7 @@ export async function DisplayDatabase(keyword) {
     }
     try {
         //const response = await fetch(`http://localhost:4000/card/${encodeURIComponent(keyword)}`);
-        const response = await fetch(`http://localhost:4000/card/102380`);
+        const response = await fetch(`http://localhost:4000/card/3000`);
         const data = await response.json();
         const container = document.createElement('div');
         container.id = 'db-container';
@@ -24,7 +24,7 @@ export async function DisplayDatabase(keyword) {
             table.border = "1";
             // Ligne d'en-tête
             const headerRow = document.createElement('tr');
-            Object.keys(data[0]).forEach(key => {
+            Object.keys(data[0]).forEach((key) => {
                 const th = document.createElement('th');
                 th.textContent = key.toUpperCase();
                 headerRow.appendChild(th);

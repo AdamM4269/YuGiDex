@@ -23,7 +23,7 @@ async function main() {
         host: 'localhost',
         user: 'root',
         password: 'root',
-        database: 'node',
+        database: 'mysql',
     });
     const app = express();
     app.use(cors());
@@ -68,14 +68,14 @@ async function main() {
     app2.use(bodyParser.json());
     const port2 = process.env.PORT || 4000;
     // Endpoint pour récupérer une carte par ID
-    app2.get('/card/:id', (req, res) => {
+    app2.get('/card/:atk', (req, res) => {
         const stmt = db.prepare(`
       SELECT texts.name, texts.desc, datas.atk, datas.def
       FROM texts
       JOIN datas ON texts.id = datas.id
-      WHERE texts.id = ?
+      WHERE datas.atk = ?
     `);
-        const card = stmt.get(Number(req.params.id));
+        const card = stmt.all(Number(req.params.atk));
         res.json(card || {});
     });
     app2.listen(port2, () => {
