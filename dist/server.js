@@ -96,8 +96,9 @@ async function main() {
         fichiersCdb.forEach(fichier => {
             const cheminBase = path.join(dossierBases, fichier);
             const db = new Database(cheminBase);
+            // Sélectionne toutes les colonnes de texts et datas
             const stmt = db.prepare(`
-      SELECT texts.name, texts.desc, datas.atk, datas.def
+      SELECT texts.*, datas.*
       FROM texts
       JOIN datas ON texts.id = datas.id
       WHERE texts.name LIKE ?
@@ -106,11 +107,11 @@ async function main() {
             resultats = resultats.concat(cartes);
             db.close();
         });
-        // Suppression des doublons (basé sur le nom de la carte)
+        // Suppression des doublons (basé sur l'id de la carte)
         const uniqueMap = new Map();
         resultats.forEach(carte => {
-            if (!uniqueMap.has(carte.name)) {
-                uniqueMap.set(carte.name, carte);
+            if (!uniqueMap.has(carte.id)) {
+                uniqueMap.set(carte.id, carte);
             }
         });
         res.json(Array.from(uniqueMap.values()));

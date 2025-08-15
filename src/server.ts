@@ -133,8 +133,9 @@ app2.get('/card/:name', (req, res) => {
     const cheminBase = path.join(dossierBases, fichier);
     const db = new Database(cheminBase);
 
+    // Sélectionne toutes les colonnes de texts et datas
     const stmt = db.prepare(`
-      SELECT texts.name, texts.desc, datas.atk, datas.def
+      SELECT texts.*, datas.*
       FROM texts
       JOIN datas ON texts.id = datas.id
       WHERE texts.name LIKE ?
@@ -146,11 +147,11 @@ app2.get('/card/:name', (req, res) => {
     db.close();
   });
 
-  // Suppression des doublons (basé sur le nom de la carte)
-  const uniqueMap = new Map<string, any>();
+  // Suppression des doublons (basé sur l'id de la carte)
+  const uniqueMap = new Map<number, any>();
   resultats.forEach(carte => {
-    if (!uniqueMap.has(carte.name)) {
-      uniqueMap.set(carte.name, carte);
+    if (!uniqueMap.has(carte.id)) {
+      uniqueMap.set(carte.id, carte);
     }
   });
 
