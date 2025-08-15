@@ -2,11 +2,19 @@
   .then(res => res.json())
   .then(data => console.log(data)); */
 
+
+type Filter = {
+  field:string;
+  filterbycolumn:string;
+  operator:string;
+}
+
 interface Card {
-  id: number;
   name: string;
-  atk: number | null;
-  def: number | null;
+  desc: string;
+  atk: number;
+  def: number;
+  source: string; // nom de la base d'où vient la carte
 }
 export async function DisplayDatabase(keyword: string) {
   const app = document.getElementById('app');
@@ -20,7 +28,7 @@ export async function DisplayDatabase(keyword: string) {
 
   try {
     //const response = await fetch(`http://localhost:4000/card/${encodeURIComponent(keyword)}`);
-    const response = await fetch(`http://localhost:4000/card/3000`);
+    const response = await fetch(`http://localhost:4000/card/${keyword}`);
     const data: Card[] = await response.json();
 
     const container = document.createElement('div');
@@ -69,4 +77,50 @@ export async function DisplayDatabase(keyword: string) {
   }
 }
 
-DisplayDatabase("Coucou");
+export default async function initClientQueryDB()
+{
+  const response = await fetch("layout_client_db.json");
+  const elements: UIElement[] = await response.json();
+  const app = document.getElementById("app");
+
+  if (!app) return;
+
+  elements.forEach((element) => {
+    if (element.type === "cardname") {
+      const label = document.createElement("label");
+      label.textContent = element.label || "";
+
+      const input = document.createElement("input");
+      input.type = element.type;
+      input.placeholder = element.placeholder || "";
+      input.id = element.id;
+
+      app.appendChild(label);
+      app.appendChild(input);
+    }
+
+    if (element.type === "button") {
+      const button = document.createElement("button");
+      button.textContent = element.text || "Bouton";
+      button.id = element.id;
+
+      button.addEventListener("click", async () => {
+        const field = document.getElementById("cardname") as HTMLInputElement;
+        const filterbycolumn = document.getElementById("filterbycolumn") as HTMLInputElement;
+        const operator = document.getElementById("operators") as HTMLInputElement;
+        const filter: Filter = {
+          field:field.value,
+          filterbycolumn:filterbycolumn.value,
+          operator:operator.value
+        }
+          if (filter) {
+            await DisplayDatabase(field.value);
+          }
+      });
+
+      app.appendChild(button);
+    }
+  });
+}
+
+initClientQueryDB();

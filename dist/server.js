@@ -3,6 +3,17 @@ import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import Database from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+// Recréer __dirname (ESM)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Dossier où sont tes bases .cdb
+const dossierBases = path.join(__dirname, '../bdd/cdb/cdb_vf');
+// Lister tous les fichiers .cdb
+const fichiersCdb = fs.readdirSync(dossierBases)
+    .filter(f => f.toLowerCase().endsWith('.cdb'));
 function CreateQuery(filter) {
     const filterJson = JSON.parse(filter);
     let fieldToQuery = filterJson.field;
@@ -62,22 +73,49 @@ async function main() {
     app.listen(port, () => {
         console.log(`Serveur lancé sur http://localhost:${port}`);
     });
-    const db = new Database('bdd/cdb/cards.delta.cdb');
     const app2 = express();
     app2.use(cors());
     app2.use(bodyParser.json());
     const port2 = process.env.PORT || 4000;
     // Endpoint pour récupérer une carte par ID
-    app2.get('/card/:atk', (req, res) => {
-        const stmt = db.prepare(`
+    /* app2.get('/card/:atk', (req, res) => {
+      const stmt = db.prepare(`
+        SELECT texts.name, texts.desc, datas.atk, datas.def
+        FROM texts
+        JOIN datas ON texts.id = datas.id
+        WHERE datas.atk = ?
+      `);
+      const card = stmt.all(Number(req.params.atk));
+      res.json(card || {});
+    }); */
+    // Route de recherche
+    // Route pour rechercher un nom dans toutes les bases
+    app2.get('/card/:name', (req, res) => {
+        const search = `%${req.params.name}%`;
+        let resultats = [];
+        fichiersCdb.forEach(fichier => {
+            const cheminBase = path.join(dossierBases, fichier);
+            const db = new Database(cheminBase);
+            const stmt = db.prepare(`
       SELECT texts.name, texts.desc, datas.atk, datas.def
       FROM texts
       JOIN datas ON texts.id = datas.id
-      WHERE datas.atk = ?
+      WHERE texts.name LIKE ?
     `);
-        const card = stmt.all(Number(req.params.atk));
-        res.json(card || {});
+            const cartes = stmt.all(search);
+            resultats = resultats.concat(cartes);
+            db.close();
+        });
+        // Suppression des doublons (basé sur le nom de la carte)
+        const uniqueMap = new Map();
+        resultats.forEach(carte => {
+            if (!uniqueMap.has(carte.name)) {
+                uniqueMap.set(carte.name, carte);
+            }
+        });
+        res.json(Array.from(uniqueMap.values()));
     });
+    // Démarrage du serveur
     app2.listen(port2, () => {
         console.log(`Serveur lancé sur http://localhost:${port2}`);
     });

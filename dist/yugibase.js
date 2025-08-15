@@ -12,7 +12,7 @@ export async function DisplayDatabase(keyword) {
     }
     try {
         //const response = await fetch(`http://localhost:4000/card/${encodeURIComponent(keyword)}`);
-        const response = await fetch(`http://localhost:4000/card/3000`);
+        const response = await fetch(`http://localhost:4000/card/${keyword}`);
         const data = await response.json();
         const container = document.createElement('div');
         container.id = 'db-container';
@@ -55,4 +55,42 @@ export async function DisplayDatabase(keyword) {
         app.appendChild(errorMsg);
     }
 }
-DisplayDatabase("Coucou");
+export default async function initClientQueryDB() {
+    const response = await fetch("layout_client_db.json");
+    const elements = await response.json();
+    const app = document.getElementById("app");
+    if (!app)
+        return;
+    elements.forEach((element) => {
+        if (element.type === "cardname") {
+            const label = document.createElement("label");
+            label.textContent = element.label || "";
+            const input = document.createElement("input");
+            input.type = element.type;
+            input.placeholder = element.placeholder || "";
+            input.id = element.id;
+            app.appendChild(label);
+            app.appendChild(input);
+        }
+        if (element.type === "button") {
+            const button = document.createElement("button");
+            button.textContent = element.text || "Bouton";
+            button.id = element.id;
+            button.addEventListener("click", async () => {
+                const field = document.getElementById("cardname");
+                const filterbycolumn = document.getElementById("filterbycolumn");
+                const operator = document.getElementById("operators");
+                const filter = {
+                    field: field.value,
+                    filterbycolumn: filterbycolumn.value,
+                    operator: operator.value
+                };
+                if (filter) {
+                    await DisplayDatabase(field.value);
+                }
+            });
+            app.appendChild(button);
+        }
+    });
+}
+initClientQueryDB();
