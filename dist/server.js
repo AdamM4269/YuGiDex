@@ -98,7 +98,7 @@ async function main() {
             const db = new Database(cheminBase);
             // Sélectionne toutes les colonnes de texts et datas
             const stmt = db.prepare(`
-      SELECT texts.*, datas.*
+      SELECT texts.name, texts.desc, datas.*
       FROM texts
       JOIN datas ON texts.id = datas.id
       WHERE texts.name LIKE ?

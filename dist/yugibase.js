@@ -33,7 +33,8 @@ export async function DisplayDatabase(keyword) {
             // Lignes de données
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                Object.values(row).forEach(val => {
+                const translatedRow = TranslateRow(row);
+                Object.values(translatedRow).forEach(val => {
                     const td = document.createElement('td');
                     td.textContent = val !== null ? String(val) : "-";
                     tr.appendChild(td);
@@ -92,5 +93,39 @@ export default async function initClientQueryDB() {
             app.appendChild(button);
         }
     });
+}
+export function TranslateRow(row) {
+    const translatedRow = {
+        name: row.name,
+        desc: row.desc,
+        id: row.id,
+        ot: row.ot,
+        alias: row.alias,
+        setcode: row.setcode,
+        type: "",
+        atk: row.atk,
+        def: row.def,
+        level: row.level,
+        race: "",
+        attribute: "",
+        category: ""
+    };
+    translatedRow.type = TranslateType(row.type);
+    translatedRow.race = TranslateRace(row.race);
+    translatedRow.attribute = TranslateAttribute(row.attribute);
+    translatedRow.category = TranslateCategory(row.category);
+    return translatedRow;
+}
+function TranslateType(type) {
+    return "";
+}
+function TranslateRace(race) {
+    return "";
+}
+function TranslateAttribute(attribute) {
+    return "";
+}
+function TranslateCategory(category) {
+    return "";
 }
 initClientQueryDB();

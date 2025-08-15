@@ -12,9 +12,33 @@ type Filter = {
 interface Card {
   name: string;
   desc: string;
+  id:number;
+  ot:number;
+  alias:number;
+  setcode:number;
+  type:number;
   atk: number;
   def: number;
-  source: string; // nom de la base d'où vient la carte
+  level: number;
+  race: number;
+  attribute: number;
+  category: number;
+}
+
+interface CardTranslated {
+  name: string;
+  desc: string;
+  id:number;
+  ot:number;
+  alias:number;
+  setcode:number;
+  type:string;
+  atk: number;
+  def: number;
+  level: number;
+  race: string;
+  attribute: string;
+  category: string;
 }
 export async function DisplayDatabase(keyword: string) {
   const app = document.getElementById('app');
@@ -54,7 +78,8 @@ export async function DisplayDatabase(keyword: string) {
       // Lignes de données
       data.forEach(row => {
         const tr = document.createElement('tr');
-        Object.values(row).forEach(val => {
+        const translatedRow = TranslateRow(row);
+        Object.values(translatedRow).forEach(val => {
           const td = document.createElement('td');
           td.textContent = val !== null ? String(val) : "-";
           tr.appendChild(td);
@@ -121,6 +146,51 @@ export default async function initClientQueryDB()
       app.appendChild(button);
     }
   });
+}
+
+export function TranslateRow(row: Card): CardTranslated
+{
+  const translatedRow: CardTranslated = {
+    name: row.name,
+    desc: row.desc,
+    id:row.id,
+    ot:row.ot,
+    alias:row.alias,
+    setcode:row.setcode,
+    type:"",
+    atk: row.atk,
+    def: row.def,
+    level: row.level,
+    race: "",
+    attribute: "",
+    category: ""
+  }
+
+  translatedRow.type = TranslateType(row.type);
+  translatedRow.race = TranslateRace(row.race);
+  translatedRow.attribute = TranslateAttribute(row.attribute);
+  translatedRow.category = TranslateCategory(row.category);
+  return translatedRow;
+}
+
+function TranslateType(type: number): string
+{
+  return "";
+}
+
+function TranslateRace(race: number): string
+{
+  return "";
+}
+
+function TranslateAttribute(attribute: number): string
+{
+  return "";
+}
+
+function TranslateCategory(category: number): string
+{
+  return "";
 }
 
 initClientQueryDB();
