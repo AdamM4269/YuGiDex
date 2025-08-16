@@ -1,0 +1,13 @@
+[
+  {
+    "type": "field",
+    "label": "Search",
+    "placeholder": "Enter search field",
+    "id": "field"
+  },
+  {
+    "type": "button",
+    "text": "Submit",
+    "id": "submit"
+  }
+]

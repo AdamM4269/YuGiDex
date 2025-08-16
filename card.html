@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détails carte</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    img { max-width: 300px; display: block; margin-top: 20px; }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <img id="logo" src="logo.png" alt="Logo">
+    <div class="brand">
+      <div class="title">YugiDex - Yugibase</div>
+      <div class="subtitle">YugiDex • Recherche de cartes</div>
+    </div>
+
+    <nav class="tabs">
+      <a href="index.html" class="tab-button">Ajouter des cartes</a>
+      <a href="my_data_base.html" class="tab-button">Visionner mes cartes</a>
+      <a href="yugibase.html" class="tab-button">Rechercher</a>
+    </nav>
+  </header>
+  <div id="app">
+    <h1 id="card-name"></h1>
+    <p id="card-desc"></p>
+    <p>ATK: <span id="card-atk"></span> | DEF: <span id="card-def"></span></p>
+    <img id="card-image" alt="Image carte" />
+  </div>
+
+  <script src="dist/card.js"></script>
+</body>
+</html>

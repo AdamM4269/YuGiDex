@@ -23,6 +23,13 @@ interface Card {
   source: string; // nom de la base d'où vient la carte
 }
 
+type FilterYuGiBase = {
+  field: any;
+  column: string;
+  orderBy:string;
+
+}
+
 // Recréer __dirname (ESM)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -126,7 +133,21 @@ async function main() {
 // Route de recherche
 // Route pour rechercher un nom dans toutes les bases
 app2.get('/card/:name', (req, res) => {
-  const search = `%${req.params.name}%`;
+
+  let search = "";
+  let likeOrEqual = "";
+  const searchJson: FilterYuGiBase = JSON.parse(req.params.name);
+  console.log("Mon fichier JSON : "+searchJson)
+  if(typeof searchJson.field === "string")
+  {
+    search = `%${searchJson.field}%`;
+    likeOrEqual = "LIKE"
+  } else
+  {
+    search = searchJson.field
+    likeOrEqual = "=";
+  }
+    
   let resultats: any[] = [];
 
   fichiersCdb.forEach(fichier => {
@@ -135,10 +156,11 @@ app2.get('/card/:name', (req, res) => {
 
     // Sélectionne toutes les colonnes de texts et datas
     const stmt = db.prepare(`
-      SELECT texts.name, texts.desc, datas.*
+      SELECT texts.name, datas.type, datas.attribute, datas.race, datas.level, datas.atk, datas.def, texts.desc, datas.id
       FROM texts
       JOIN datas ON texts.id = datas.id
-      WHERE texts.name LIKE ?
+      WHERE ${searchJson.column} ${likeOrEqual} ?
+      ORDER BY texts.name ${searchJson.orderBy}
     `);
 
     const cartes = stmt.all(search);
@@ -162,8 +184,50 @@ app2.get('/card/:name', (req, res) => {
   app2.listen(port2, () => {
     console.log(`Serveur lancé sur http://localhost:${port2}`);
   });
+
+  const app3 = express();
+  const port3 = 2000;
+
+  app3.use(cors());
+
+  // Endpoint test
+  app3.get("/", (req, res) => {
+    res.send("Serveur en ligne sur app3:2000 🚀");
+  });
+
+  // Endpoint : chercher une carte par ID
+  app3.get("/card/:id", (req, res) => {
+    const id = req.params.id;
+
+    try {
+      fichiersCdb.forEach(fichier => {
+        const cheminBase = path.join(dossierBases, fichier);
+        const db = new Database(cheminBase);
+        const stmt = db.prepare(`
+          SELECT texts.id, texts.name, texts.desc, datas.atk, datas.def
+          FROM texts
+          JOIN datas ON texts.id = datas.id
+          WHERE texts.id = ?
+        `);
+
+        const card = stmt.get(id);
+
+        if (!card) {
+          res.status(404).json({ error: "Carte non trouvée" });
+        } else {
+          res.json(card);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Erreur interne serveur" });
+    }
+  });
+
+  // Lancer le serveur sur app3:6000
+  app3.listen(port3, () => {
+    console.log(`✅ Serveur lancé sur http://localhost:${port3}`);
+  });
 }
 
 main().catch(console.error);
-
-

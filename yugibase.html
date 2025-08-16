@@ -45,14 +45,19 @@
     <div id="app">
         <h1>Rechercher</h1>
         <select id="filterbycolumn" name="filterbycolumn">
-            <option value="name_en">English name</option>
-            <option value="name_fr">French name</option>
-            <option value="reference">Reference</option>
+            <option value="texts.name">Card name</option>
+            <option value="datas.type">Type</option>
+            <option value="datas.attribute">Attribute</option>
+            <option value="datas.race">Race</option>
+            <option value="datas.level">Level</option>
+            <option value="datas.atk">Atk</option>
+            <option value="datas.def">Def</option>
+            <option value="texts.desc">Description</option>
+            <option value="datas.id">ID</option>
         </select>
-        <select id="operators" name="operators">
-            <option value="startswith">Starts with</option>
-            <option value="endswith">Ends with</option>
-            <option value="contains">Contains</option>
+        <select id="orderby" name="orderby">
+            <option value="ASC">Ascendent</option>
+            <option value="DESC">Descendent</option>
         </select>
     </div>
 
